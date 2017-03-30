@@ -10,7 +10,7 @@ import wgz.strategy.sample.RequestHolder;
 public abstract class AbstractSampleStrategy implements SampleStrategy {
 
   /**
-   * 策略抽象类包装实现具体折扣策略计算前后通用处理逻辑
+   * 策略抽象类包装实现具体策略计算前后通用处理逻辑
    */
   @Override
   public StrategyResult compute(RequestHolder requestHolder) throws Exception {
@@ -42,7 +42,7 @@ public abstract class AbstractSampleStrategy implements SampleStrategy {
    * 策略抽象类添加，具体策略类都应该重写该方法以实现自己的策略
    * 
    * @param requestHolder
-   * @return 基于自己策略计算出的折扣
+   * @return 基于自己策略计算出的分数
    */
   protected abstract double computeLogic(RequestHolder requestHolder) throws Exception;
 
