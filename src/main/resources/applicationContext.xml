@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd"
+       default-autowire="byName">
+
+    <!-- 导入属性配置文件 -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:log4j.properties</value>
+                <value>classpath:serviceConfig.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <context:annotation-config/>
+    <!-- 扫描指定包下面通过注解配置的组件 -->
+    <context:component-scan base-package="wgz.strategy.sampley"/>
+
+    <!-- beans -->
+    <bean id="strategyServer" class="wgz.strategy.sample"
+          init-method="init" destroy-method="close">
+        <property name="port" value="${service.port}"/>
+        <property name="strategyServiceImpl" ref="strategyServiceImpl"/>
+    </bean>
+    <bean id="strategyServiceImpl" class="wgz.strategy.sample.StrategyServiceImpl">
+    </bean>
+    <bean id="xgboostPredictorV1_0_1" class="wgz.strategy.sample.xgboost.XgboostModelPredictor">
+        <constructor-arg name="modelPath" value="model/xgboost_clf_v1.0.1.model"/>
+        <constructor-arg name="indexMapFile" value="model/feature-index-map-v1.0.1"/>
+    </bean>
+    <bean id="xgboostPredictor" class="com.didi.subsidy.bubble.xgboost.XgboostModelPredictor">
+        <constructor-arg name="modelPath" value="model/xgboost_clf_v1.0.0.model"/>
+        <constructor-arg name="indexMapFile" value="model/feature-index-map-v1.0.0"/>
+    </bean>
+</beans>
